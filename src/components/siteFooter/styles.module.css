@@ -43,7 +43,7 @@
     justify-content: flex-end;
     gap: 10px 16px;
 
-    a { display: inline-flex; align-items: center; gap: 5px; color: var(--muted); font-size: 9px; transition: color 150ms ease; }
+    a { display: inline-flex; align-items: center; gap: 5px; color: var(--muted); font-size: 9px; }
     a:hover { color: var(--ink); }
     svg { width: 11px; height: 11px; }
   }

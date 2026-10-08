@@ -47,7 +47,7 @@
     gap: 27px;
     margin-left: 56px;
 
-    a { color: var(--muted); font-size: 12px; font-weight: 650; transition: color 150ms ease; }
+    a { color: var(--muted); font-size: 12px; font-weight: 650; }
     a:hover { color: var(--ink); }
   }
 
