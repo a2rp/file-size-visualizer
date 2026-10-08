@@ -9,8 +9,8 @@ const SiteHeader = () => (
         <span>File <b>Sizes</b></span>
       </a>
       <nav className={styles.navigation} aria-label="Main navigation">
-        <a href="#files">Generator</a>
-        <a href="#about">About UUIDs</a>
+        <a href="#files">Files</a>
+        <a href="#about">How it works</a>
       </nav>
       <a className={styles.repository} href="https://github.com/a2rp/file-size-visualizer" target="_blank" rel="noreferrer">
         <FiGithub aria-hidden="true" /> <span>Repository</span>
