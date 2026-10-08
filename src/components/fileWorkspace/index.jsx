@@ -40,7 +40,7 @@ const FileWorkspace = () => {
       return;
     }
     const records = incomingFiles.map((file, index) => ({
-      id: fileId(file, index),
+      id: fileId(file, files.length + index),
       name: file.name,
       size: file.size,
       type: file.type,
