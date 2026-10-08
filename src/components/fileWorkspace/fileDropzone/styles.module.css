@@ -1,0 +1,25 @@
+﻿.zone {
+  border: 1px dashed #d3b9a7;
+  border-radius: 12px;
+  background: #fffaf5;
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+
+  &:hover, &.dragging { border-color: var(--accent-deep); box-shadow: 0 0 0 3px rgb(228 106 59 / 9%); }
+  &.dragging { background: #fff2e9; }
+  &.disabled { opacity: 0.55; }
+  &:focus-within { outline: 3px solid var(--accent-deep); outline-offset: 3px; }
+
+  .label { display: grid; min-height: 174px; align-content: center; justify-items: center; padding: 20px 15px; cursor: pointer; }
+  input { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; clip-path: inset(50%); }
+  .uploadIcon { display: grid; width: 42px; height: 42px; place-items: center; border: 1px solid #f2d4c1; border-radius: 12px; color: var(--accent-deep); background: #fff0e6; }
+  .uploadIcon svg { width: 19px; height: 19px; }
+  strong { margin-top: 11px; color: var(--ink); font-size: 12px; font-weight: 760; }
+  .description { margin-top: 3px; color: var(--muted); font-size: 9px; }
+  .description b { color: var(--accent-deep); text-decoration: underline; text-underline-offset: 2px; }
+  .detail { display: inline-flex; align-items: center; gap: 5px; margin-top: 12px; color: var(--muted); font-size: 7px; }
+  .detail svg { width: 10px; height: 10px; color: var(--green); }
+
+  @media (max-width: 620px) {
+    .label { min-height: 150px; }
+  }
+}
