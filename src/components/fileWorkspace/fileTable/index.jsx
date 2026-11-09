@@ -13,7 +13,7 @@ const FileTable = ({ files, onRequestRemove, onRequestClear, onExport }) => {
 
   return (
     <section className={styles.tablePanel} aria-labelledby="file-list-title">
-      <div className={styles.heading}><div><p>SELECTED FILES</p><h2 id="file-list-title">File inventory</h2><span>{filtered.length} of {files.length} files shown</span></div>{files.length > 0 && <div className={styles.actions}><button type="button" onClick={onExport}><FiDownload aria-hidden="true" /> Export report</button><button className={styles.clearButton} type="button" onClick={onRequestClear}><FiTrash2 aria-hidden="true" /> Clear all</button></div>}</div>
+      <div className={styles.heading}><div><p>SELECTED FILES</p><h2 id="file-list-title" tabIndex="-1">File inventory</h2><span>{filtered.length} of {files.length} files shown</span></div>{files.length > 0 && <div className={styles.actions}><button type="button" onClick={onExport}><FiDownload aria-hidden="true" /> Export report</button><button className={styles.clearButton} type="button" onClick={onRequestClear}><FiTrash2 aria-hidden="true" /> Clear all</button></div>}</div>
       {files.length > 0 && <div className={styles.filters}>
         <label className={styles.search} htmlFor="file-search"><FiSearch aria-hidden="true" /><input id="file-search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Find a file by name or type" /></label>
         <label className={styles.selectFilter} htmlFor="file-category"><span>Type</span><select id="file-category" value={category} onChange={(event) => setCategory(event.target.value)}><option value="all">All types</option>{fileCategories.map((item) => <option value={item.id} key={item.id}>{item.label}</option>)}</select></label>

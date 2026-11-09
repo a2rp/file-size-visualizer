@@ -20,7 +20,7 @@ Review the size and type mix of a local file selection. Drop files into the page
 
 The browser file picker provides names, MIME types, sizes, and modification times. The app reads metadata only. It never opens file contents, uploads files, or changes files on disk. Selected entries exist in the current page session and are cleared when the page is reloaded. Removing a row only removes it from the current report.
 
-A report can contain up to 200 file entries. Sizes use base 1024 units, from bytes through petabytes. The JSON download includes file names, MIME types, byte sizes, categories, and the report timestamp, but no file contents.
+A report can contain up to 200 file entries. If a selection exceeds the remaining space, the app adds the files that fit and reports how many were skipped. Sizes use base 1024 units, from bytes through petabytes. The JSON download includes file names, MIME types, byte sizes, categories, and the report timestamp, but no file contents.
 
 ## Run locally
 

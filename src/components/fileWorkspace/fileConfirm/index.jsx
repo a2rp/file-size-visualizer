@@ -5,8 +5,10 @@ import styles from "./styles.module.css";
 const FileConfirm = ({ title, description, confirmLabel, onCancel, onConfirm }) => {
   const cancelRef = useRef(null);
   const confirmRef = useRef(null);
+  const returnFocusRef = useRef(null);
 
   useEffect(() => {
+    returnFocusRef.current = document.activeElement;
     cancelRef.current?.focus();
     const handleKeyDown = (event) => {
       if (event.key === "Escape") onCancel();
@@ -19,7 +21,12 @@ const FileConfirm = ({ title, description, confirmLabel, onCancel, onConfirm }) 
       }
     };
     window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      const returnFocus = returnFocusRef.current;
+      if (returnFocus?.isConnected) returnFocus.focus();
+      else document.getElementById("file-list-title")?.focus();
+    };
   }, [onCancel]);
 
   return (

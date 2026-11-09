@@ -31,15 +31,21 @@ const FileWorkspace = () => {
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
   const [pendingAction, setPendingAction] = useState(null);
+  const [fileTableKey, setFileTableKey] = useState(0);
   const summary = useMemo(() => summarizeFiles(files), [files]);
 
   const addFiles = (incomingFiles) => {
-    if (files.length + incomingFiles.length > fileLimit) {
-      setError(`This report is limited to ${fileLimit} files. Remove some files before adding more.`);
+    const incoming = Array.from(incomingFiles ?? []);
+    const availableSlots = Math.max(0, fileLimit - files.length);
+    const acceptedFiles = incoming.slice(0, availableSlots);
+    const skippedCount = incoming.length - acceptedFiles.length;
+
+    if (!acceptedFiles.length) {
+      setError(`This report already contains the maximum of ${fileLimit} files. Remove a file before adding more.`);
       setNotice("");
       return;
     }
-    const records = incomingFiles.map((file, index) => ({
+    const records = acceptedFiles.map((file, index) => ({
       id: fileId(file, files.length + index),
       name: file.name,
       size: file.size,
@@ -47,16 +53,20 @@ const FileWorkspace = () => {
       lastModified: file.lastModified,
     }));
     setFiles((current) => [...current, ...records]);
-    setError("");
+    setError(skippedCount
+      ? `${skippedCount} ${skippedCount === 1 ? "file was" : "files were"} skipped because each report is limited to ${fileLimit} files.`
+      : "");
     setNotice(`${records.length} ${records.length === 1 ? "file added" : "files added"}. Only file metadata is analyzed.`);
   };
 
   const confirmAction = () => {
     if (pendingAction?.kind === "clear") {
       setFiles([]);
+      setFileTableKey((key) => key + 1);
       setNotice("The file report is clear. Your files on disk were not changed.");
     } else if (pendingAction?.kind === "remove") {
       setFiles((current) => current.filter((file) => file.id !== pendingAction.file.id));
+      if (files.length === 1) setFileTableKey((key) => key + 1);
       setNotice(`${pendingAction.file.name} removed from the report.`);
     }
     setError("");
@@ -82,7 +92,7 @@ const FileWorkspace = () => {
       {error && <p className={styles.error} role="alert">{error}</p>}
       {notice && <p className={styles.notice} role="status" aria-live="polite">{notice}</p>}
       <FileSummary summary={summary} />
-      <FileTable files={files} onRequestRemove={(file) => setPendingAction({ kind: "remove", file })} onRequestClear={() => setPendingAction({ kind: "clear" })} onExport={exportReport} />
+      <FileTable key={fileTableKey} files={files} onRequestRemove={(file) => setPendingAction({ kind: "remove", file })} onRequestClear={() => setPendingAction({ kind: "clear" })} onExport={exportReport} />
       <div className={styles.privacyFoot}><FiDatabase aria-hidden="true" /><p>Analysis reads file names, MIME types, and sizes only. File contents are never opened or uploaded. Up to {fileLimit} entries per report.</p><span>{formatBytes(summary.totalBytes)} / TOTAL</span></div>
       {pendingAction && <FileConfirm title={confirmTitle} description={confirmDescription} confirmLabel={pendingAction.kind === "clear" ? "Clear report" : "Remove file"} onCancel={() => setPendingAction(null)} onConfirm={confirmAction} />}
     </section>
